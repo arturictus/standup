@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "standup"
+require "tty-prompt"
+require "pry"
+users = [
+  "Adrian",
+  "Alex",
+  "Anna",
+  "Artur",
+  "Cesc",
+  "David",
+  "Josele",
+  "Julia",
+  "Ksenia",
+  "Laia",
+  "Manu",
+  "Marc",
+  "Samu",
+  "Victor"
+]
+
+prompt = TTY::Prompt.new
+
+prompt.multi_select("How has talked?", users, per_page: users.count)
+
+
