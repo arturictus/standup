@@ -3,32 +3,46 @@
 require "bundler/setup"
 require "standup"
 require "tty-prompt"
+require "colorize"
+require "yaml"
 
-employees = [
-  "Adrian",
-  "Alex",
-  "Anna",
-  "Artur",
-  "Cesc",
-  "David",
-  "Josele",
-  "Julia",
-  "Ksenia",
-  "Laia",
-  "Manu",
-  "Marc",
-  "Samu",
-  "Victor"
-]
+puts %Q(
+                                                                                     ,---,  
+                                                                                  ,`--.' |  
+  .--.--.       ___                                                               |   :  :  
+ /  /    '.   ,--.'|_                                ,---,              ,-.----.  '   '  ;  
+|  :  /`. /   |  | :,'                   ,---,     ,---.'|         ,--, \    /  \ |   |  |  
+;  |  |--`    :  : ' :               ,-+-. /  |    |   | :       ,'_ /| |   :    |'   :  ;  
+|  :  ;_    .;__,'  /    ,--.--.    ,--.'|'   |    |   | |  .--. |  | : |   | .\ :|   |  '  
+ \  \    `. |  |   |    /       \  |   |  ,"' |  ,--.__| |,'_ /| :  . | .   : |: |'   :  |  
+  `----.   \:__,'| :   .--.  .-. | |   | /  | | /   ,'   ||  ' | |  . . |   |  \ :;   |  ;  
+  __ \  \  |  '  : |__  \__\/: . . |   | |  | |.   '  /  ||  | ' |  | | |   : .  |`---'. |  
+ /  /`--'  /  |  | '.'| ," .--.; | |   | |  |/ '   ; |:  |:  | : ;  ; | :     |`-' `--..`;  
+'--'.     /   ;  :    ;/  /  ,.  | |   | |--'  |   | '/  ''  :  `--'   \:   : :   .--,_     
+  `--'---'    |  ,   /;  :   .'   \|   |/      |   :    :|:  ,      .-./|   | :   |    |`.  
+               ---`-' |  ,     .-./'---'        \   \  /   `--`----'    `---'.|   `-- -`, ; 
+                       `--`---'                  `----'                   `---`     '---`"  
+).colorize(:color => :yellow)
 
-assist = employees.dup
+puts ""
+puts ""
+
+begin
+  data = File.read(ENV['HOME']+"/standup.yml")
+  employees = YAML.load(data).sort
+rescue
+  puts "Please add file `standup.yml` in your home directory"
+  exit 1
+end
+
+assisting = employees.dup
 prompt = TTY::Prompt.new
 
-o = prompt.multi_select("not present?", employees, per_page: employees.count)
+o = prompt.multi_select("Select not present".colorize(:yellow), employees, per_page: employees.count)
 
-o.each { |n| assist.delete(n) }
+o.each { |n| assisting.delete(n) }
 
-prompt.multi_select("How has talked?", assist, per_page: assist.count)
+prompt.multi_select("Mark while they talk".colorize(:yellow), assisting, per_page: assisting.count)
 
-puts "Boom!!"
+puts "==========================================================================================".colorize(:yellow)
 
