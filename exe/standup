@@ -5,8 +5,9 @@ require "standup"
 require "tty-prompt"
 require "colorize"
 require "yaml"
+require 'optparse'
 
-puts %Q(
+banner = %Q(
                                                                                      ,---,  
                                                                                   ,`--.' |  
   .--.--.       ___                                                               |   :  :  
@@ -22,16 +23,58 @@ puts %Q(
   `--'---'    |  ,   /;  :   .'   \|   |/      |   :    :|:  ,      .-./|   | :   |    |`.  
                ---`-' |  ,     .-./'---'        \   \  /   `--`----'    `---'.|   `-- -`, ; 
                        `--`---'                  `----'                   `---`     '---`"  
-).colorize(:color => :yellow)
+).colorize(:yellow)
 
-puts ""
-puts ""
+puts banner
+
+options = {
+  file: ENV['HOME']+"/standup.yml"
+}
+
+options_parser = OptionParser.new do |opts|
+                  opts.banner = "Usage: standup [options]"
+
+                  opts.on("-f", "--file FILE", "File with Participants") do |f|
+                    options[:file] = f
+                  end
+                  opts.on("-h", "--help", "Prints help") do
+                    puts opts
+                    exit
+                  end
+                end
 
 begin
-  data = File.read(ENV['HOME']+"/standup.yml")
+  options_parser.parse!(ARGV)
+rescue OptionParser::ParseError
+  puts "Error: invalid option"
+  puts options_parser
+  exit 1
+end
+
+begin
+  data = File.read(options[:file])
+rescue
+  puts ""
+  puts "[Missing config file] Default location is `~/standup.yml` but you can run it with flag `-f`"
+  puts "with a path to a your config file."
+  puts ""
+  puts options_parser
+  exit 1
+end
+
+begin
   employees = YAML.load(data).sort
 rescue
-  puts "Please add file `standup.yml` in your home directory"
+  puts "Error: Invalid file"
+  puts "Example file content:"
+  puts %Q(
+- Dr Thomas Hall
+- Dr Matthew Campbell (Matt)
+- Dr Joshua Hill (Joss)
+- Dr Joseph Mitchell (Joe)
+- Dr James Powell (Jamie)
+- Dr Samuel Russell (Rush)
+  )
   exit 1
 end
 

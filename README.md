@@ -1,28 +1,41 @@
 # Standup
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/standup`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Keep check of who talk in a standup random video call.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Install gem locally
 
-```ruby
-gem 'standup'
+```
+git clone https://github.com/arturictus/standup.git
+cd standup
+bundle install
+rake install
 ```
 
-And then execute:
+Add the list of participants in your home directory
 
-    $ bundle
+_~/standup.yml_
 
-Or install it yourself as:
+```yaml
+- Dr Thomas Hall
+- Dr Matthew Campbell (Matt)
+- Dr Joshua Hill (Joss)
+- Dr Joseph Mitchell (Joe)
+- Dr James Powell (Jamie)
+- Dr Samuel Russell (Rush)
+- Dr Daniel Patel (Dan)
+- Dr Alexander Bell (Alek)
+- Dr Luke Marshall (Marsh)
+- Dr Benjamin Hull (Ben)
+```
 
-    $ gem install standup
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+$ standup
+```
 
 ## Development
 
@@ -32,8 +45,8 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/standup. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/arturictus/standup. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## Code of Conduct
 
-Everyone interacting in the Standup project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/standup/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the Standup project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/arturictus/standup/blob/master/CODE_OF_CONDUCT.md).
