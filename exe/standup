@@ -33,8 +33,11 @@ options = {
 options_parser = OptionParser.new do |opts|
                   opts.banner = "Usage: standup [options]"
 
-                  opts.on("-f", "--file FILE", "File with Participants") do |f|
+                  opts.on("-f", "--file FILE", "File path with Participants") do |f|
                     options[:file] = f
+                  end
+                  opts.on("-i", "--interactive", "Interactive mode: exclude participants at the begining") do |f|
+                    options[:interactive] = f
                   end
                   opts.on("-h", "--help", "Prints help") do
                     puts opts
@@ -80,11 +83,12 @@ end
 assisting = employees.dup
 prompt = TTY::Prompt.new
 
-o = prompt.multi_select("Select not present".colorize(:yellow), employees, per_page: employees.count)
+if options[:interactive]
+  o = prompt.multi_select("Exclude not present".colorize(:red), employees, per_page: employees.count)
+  o.each { |n| assisting.delete(n) }
+end
 
-o.each { |n| assisting.delete(n) }
-
-prompt.multi_select("Mark while they talk".colorize(:yellow), assisting, per_page: assisting.count)
+prompt.multi_select("Start ->".colorize(:yellow), assisting, per_page: assisting.count)
 
 puts "==========================================================================================".colorize(:yellow)
 
